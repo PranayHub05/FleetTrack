@@ -196,9 +196,13 @@ class AdminViewModel(
         viewModelScope.launch {
             _isGeneratingSummary.value = true
             try {
-                val apiKey = "AIzaSyCIZ-vT-vuPDTCcS1YwiGPPjkrPfw0iKh8"
+                val apiKey = com.pranay.fleettrack.BuildConfig.GEMINI_API_KEY
+                if (apiKey.isBlank()) {
+                    _aiSummary.value = "Gemini API key is not configured. Please set GEMINI_API_KEY in .env"
+                    return@launch
+                }
                 val generativeModel = com.google.ai.client.generativeai.GenerativeModel(
-                    modelName = "gemini-3.5-flash",
+                    modelName = "gemini-1.5-flash",
                     apiKey = apiKey
                 )
                 
